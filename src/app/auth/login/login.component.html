@@ -1,0 +1,13 @@
+<div style="background-color: #1a3057; width: 100vw; height: 100vh;">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!isLogado" autocomplete="off">
+    <!-- Para não aparecer autocomplete -->
+    <input autocomplete="false" name="hidden" type="text" style="display:none;">
+
+    <h2>Login</h2>
+    <input type="text" formControlName="usuario" name="login1" class="usuario" placeholder="Login"
+      [class.invalid]="!loginForm.controls.usuario.valid">
+    <input type="text" formControlName="senha" name="senha1" class="senha" placeholder="Senha"
+      [class.invalid]="!loginForm.controls.senha.valid" style="-webkit-text-security: disc;">
+    <button type="submit">Login</button>
+  </form>
+</div>

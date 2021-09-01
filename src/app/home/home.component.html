@@ -1,0 +1,15 @@
+<div>
+  Usuário logado
+  <button (click)="logout()">Logout</button>
+</div>
+
+<table border="1">
+  <thead>
+    <th>Nome</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cliente of clientes">
+      <td>{{cliente.nome}}</td>
+    </tr>
+  </tbody>
+</table>
