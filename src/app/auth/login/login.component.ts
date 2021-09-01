@@ -1,5 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
@@ -20,8 +19,10 @@ export class LoginComponent {
   constructor(private _service: AuthService, private fb: FormBuilder, private _router: Router) { }
 
   login(): void {
-    if (!this.loginForm.valid)
+    if (!this.loginForm.valid) {
+      this.shakeInput();
       return;
+    }
 
     this._service.login(this.loginForm.controls.usuario.value, this.loginForm.controls.senha.value)
       .subscribe({
@@ -36,6 +37,15 @@ export class LoginComponent {
           console.log(err);
         }
       });
+  }
+
+  private shakeInput(): void {
+    document.getElementsByTagName('input').namedItem('login1')?.classList.add('shake');
+    document.getElementsByTagName('input').namedItem('senha1')?.classList.add('shake');
+    setTimeout(() => {
+      document.getElementsByTagName('input').namedItem('login1')?.classList.remove('shake');
+      document.getElementsByTagName('input').namedItem('senha1')?.classList.remove('shake');
+    }, 200);
   }
 
 }

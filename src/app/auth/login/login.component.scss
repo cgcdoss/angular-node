@@ -33,6 +33,14 @@ form {
     &:focus {
       width: 280px;
     }
+
+    &.invalid {
+      border: 2px solid #db3434;
+
+      &.shake {
+        animation: shake 0.2s ease-in-out 0s 2;
+      }
+    }
   }
 
   button {
@@ -54,4 +62,11 @@ form {
     }
   }
 
+}
+
+@keyframes shake {
+  0% { margin-right: 30%; }
+  25% { margin-right: 35%; }
+  75% { margin-right: 30%; }
+  100% { margin-right: 35%; }
 }
