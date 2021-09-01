@@ -1,13 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { tap } from "rxjs/operators";
 
 
 @Injectable()
 export class AuthService {
 
-  refreshToken$: BehaviorSubject<{ refreshToken: string, user: string }> = new BehaviorSubject({} as any);
+  refreshToken$: Subject<{ refreshToken: string, user: string }> = new Subject();
 
   constructor(private _http: HttpClient) { }
 
