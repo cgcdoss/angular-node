@@ -48,4 +48,8 @@ export class LoginComponent {
     }, 200);
   }
 
+  testeDiretiva(event: any): void {
+    console.debug(event);
+  }
+
 }

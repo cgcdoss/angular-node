@@ -11,12 +11,14 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './auth/services/auth.service';
 import { HomeService } from './home/services/home.service';
 import { MeuInterceptor } from './meu-interceptor';
+import { TesteDirective } from './diretivas/teste.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    TesteDirective
   ],
   imports: [
     BrowserModule,
