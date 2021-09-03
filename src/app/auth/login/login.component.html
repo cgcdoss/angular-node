@@ -1,4 +1,4 @@
-<div style="background-color: #1a3057; width: 100vw; height: 100vh;">
+<div class="container">
   <form [formGroup]="loginForm" #ngFormLogin="ngForm" (ngSubmit)="login()" *ngIf="!isLogado" autocomplete="off">
     <!-- Para não aparecer autocomplete -->
     <input autocomplete="false" name="hidden" type="text" style="display:none;">
