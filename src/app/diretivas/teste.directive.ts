@@ -18,17 +18,17 @@ export class TesteDirective implements AfterViewInit {
     this.elemento = this._elementRef.nativeElement;
   }
 
-  isEnabled() {
-    return true;
-  }
-
   ngAfterViewInit(): void {
     console.log(this.label, this.teste, this.elemento.children.item(0));
-    this.setupHost();
+    this.setupElemento();
     this.setupForm();
   }
 
-  private setupHost(): void {
+  isEnabled(): boolean {
+    return true;
+  }
+
+  private setupElemento(): void {
     const corAnterior = this.elemento.style.backgroundColor;
     this.elemento.style.transition = 'background-color 200ms';
     this.elemento.append(this.label);
