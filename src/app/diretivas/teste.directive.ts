@@ -29,27 +29,42 @@ export class TesteDirective implements AfterViewInit {
   }
 
   private setupElemento(): void {
-    const corAnterior = this.elemento.style.backgroundColor;
-    this.elemento.style.transition = 'background-color 200ms';
-    this.elemento.append(this.label);
+    const backgroundColorContainer = getComputedStyle(this.elemento).backgroundColor;
+
+    const span = document.createElement('span');
+    span.style.color = backgroundColorContainer;
+    span.append(this.label)
+    this.elemento.append(span);
+
+    this.elemento.style.transition = 'background-color 100ms';
     this.elemento.addEventListener('click', () => {
       this.elemento.style.backgroundColor = '#06193c';
-      setTimeout(() => this.elemento.style.backgroundColor = corAnterior, 300);
+      setTimeout(() => this.elemento.style.backgroundColor = '', 100);
     });
   }
 
   private setupForm(): void {
     const form = this.elemento.children.item(0) as HTMLElement;
     const inputUser = form.getElementsByClassName('usuario').item(0) as HTMLElement;
-    const corPadrao = form.style.backgroundColor;
+    const corPadrao = getComputedStyle(form).backgroundColor;
+    form.style.transition = 'background-color 200ms';
 
     form.addEventListener('mouseover', () => {
-      form.style.backgroundColor = '#1b1b1b';
+      form.style.backgroundColor = '#191919';
+      inputUser.style.transform = 'scalex(1)';
       inputUser.focus();
     });
     form.addEventListener('mouseout', () => {
-      form.style.backgroundColor = corPadrao;
+      form.style.backgroundColor = '';
+      inputUser.style.transform = 'scalex(-1)'; // apenas para testar (invertendo elemento)
       inputUser.blur();
+    });
+
+    inputUser.addEventListener('click', () => {
+      const oiSpan = document.createElement('span');
+      oiSpan.append('oi');
+      form.append(oiSpan);
+      setTimeout(() => form.removeChild(oiSpan), 500);
     });
   }
 
