@@ -13,3 +13,27 @@
     </tr>
   </tbody>
 </table>
+
+<div class="teste-container">
+  <ng-container #container></ng-container>
+</div>
+
+<ng-container *ngTemplateOutlet="template; context: {$implicit: 'Hello World2', color: 'red'}"></ng-container>
+
+<div *ngIf="templateAtual" class="template-atual">
+  <button (click)="trocaTemplate()">Trocar template</button>
+  <ng-container [ngTemplateOutlet]="templateAtual" [ngTemplateOutletContext]="{$implicit: 'Hello World3'}">
+  </ng-container>
+</div>
+
+<ng-template #template let-elem let-cor="color">
+  <div [ngStyle]="{'color': cor}">
+    {{elem}}
+  </div>
+</ng-template>
+
+<ng-template #template2 let-variavel>
+  <div style="background-color: yellow;">
+    {{variavel}}
+  </div>
+</ng-template>
