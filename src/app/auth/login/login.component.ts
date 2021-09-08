@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LOCALSTORAGE, MYCUSTOMLOCALSTORAGE, MyStorage, SESSIONSTORAGE } from '../../services/storage-service-token';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -16,10 +17,19 @@ export class LoginComponent {
   });
   isLogado = false;
 
-  constructor(private _service: AuthService, private fb: FormBuilder, private _router: Router) { }
+  constructor(
+    private _service: AuthService,
+    private fb: FormBuilder,
+    private _router: Router,
+    @Inject(LOCALSTORAGE) private localStorage: MyStorage,
+    @Inject(SESSIONSTORAGE) private sessionStorage: Storage,
+    @Inject(MYCUSTOMLOCALSTORAGE) private customLocalStorage: MyStorage,) { }
 
   login(): void {
     if (!this.loginForm.valid) {
+      this.localStorage.setItem('loginfalhou', 'true');
+      this.sessionStorage.setItem('loginfalhou', 'true');
+      this.customLocalStorage.setItem('loginfalhou', 'true');
       this.shakeInput();
       return;
     }

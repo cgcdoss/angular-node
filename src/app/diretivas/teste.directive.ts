@@ -69,7 +69,7 @@ export class TesteDirective implements AfterViewInit {
   }
 
   @HostListener('mouseover', ['$event'])
-  onHover(event: any) {
+  onHover(event: PointerEvent) {
     this.qtdHover++;
     this.algoAconteceu.emit(this.qtdHover);
   }
