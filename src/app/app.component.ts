@@ -11,7 +11,7 @@ export class AppComponent {
   constructor(private _authService: AuthService) {
     const token = this._authService.getCookie('token');
     if (token) {
-      _authService.refreshToken();
+      _authService.refreshToken(true);
     }
   }
 

@@ -28,7 +28,7 @@ export class AuthService {
       );
   }
 
-  refreshToken(): void {
+  refreshToken(isGetNewTokenNow?: boolean): void {
     let interval = setInterval(() => {
       if (sessionStorage.getItem('refreshToken') && sessionStorage.getItem('usuario')) {
         this.refreshToken$.next({
@@ -50,6 +50,14 @@ export class AuthService {
         document.cookie = `token=${resp.token}; max-age=${5 * 60}`;
       });
     });
+
+    // Para pegar um novo token de imediato (usado quando o usuário der F5 no site, por exemplo)
+    if (isGetNewTokenNow && sessionStorage.getItem('refreshToken') && sessionStorage.getItem('usuario')) {
+      this.refreshToken$.next({
+        refreshToken: sessionStorage.getItem('refreshToken') as string,
+        user: sessionStorage.getItem('usuario') as string
+      });
+    }
   }
 
   getCookie(cookie: string): string {
