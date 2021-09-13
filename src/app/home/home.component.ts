@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { retry, tap, timeout } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, retry, tap, timeout } from 'rxjs/operators';
 import { AuthService } from '../auth/services/auth.service';
-import { HomeService } from './services/home.service';
+import { HomeService, Pessoa } from './services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private _authService: AuthService,
     private _router: Router,
     private _homeService: HomeService,
-  ) { }
+  ) {
+    this.getClienteAndFunci();
+  }
 
   ngOnInit(): void {
     this._homeService.getClientes()
@@ -30,7 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         timeout(4000), // espera até 4s pra ter resposta
         retry(3), // tenta 3 vezes, se a primeira der falha
       )
-      .subscribe((res: any) => {
+      .subscribe((res) => {
         this.clientes = res;
         this.container.createEmbeddedView(this.template, { $implicit: this.clientes[0].nome }); // uma forma de fazer o createEmbeddedView
       }, err => {
@@ -41,11 +44,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.templateAtual = this.template;
-      
+
       // Outra forma de fazer o createEmbeddedView
       const view = this.template.createEmbeddedView({ $implicit: 'Hello World' });
       this.container.insert(view);
     });
+  }
+
+  private getClienteAndFunci(): void {
+    forkJoin({
+      clientes: this._homeService.getClientes(2000),
+      funcis: this._homeService.getFuncis()
+    }).subscribe(resp => {
+      console.log('jeito 1:', resp);
+    });
+
+    const array: Array<Observable<Array<Pessoa>>> = [];
+    array.push(this._homeService.getClientes());
+    array.push(this._homeService.getFuncis());
+
+    forkJoin(array)
+      .pipe(
+        map(res => {
+          return { clientes: res[0], funcis: res[1] }
+        })
+      )
+      .subscribe(resp => {
+        console.log('jeito 2:', resp);
+      });
   }
 
   logout(): void {

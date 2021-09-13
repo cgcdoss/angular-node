@@ -24,7 +24,7 @@ export const MYCUSTOMLOCALSTORAGE = new InjectionToken<MyStorage>('CustomLocalSt
   providedIn: 'root'
 });
 
-export interface MyStorage extends Storage {
+export interface MyStorage {
   readonly length: number;
   clear(): void;
   getItem(key: string): string | null;
