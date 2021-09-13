@@ -1,3 +1,7 @@
+:host form:hover h2 { // o :host faz referência ao componente atual (nesse caso o <app-login></app-login>)
+  color: #d3d3d3;
+}
+
 .container {
   background-color: #1a3057;
   width: 100vw;

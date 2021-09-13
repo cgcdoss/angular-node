@@ -34,9 +34,14 @@ export class LoginComponent {
       return;
     }
 
-    this._service.login(this.loginForm.controls.usuario.value, this.loginForm.controls.senha.value)
+    const login = this.loginForm.controls.usuario.value;
+    const senha = this.loginForm.controls.senha.value;
+
+    this._service.login(login, senha)
       .subscribe({
         next: (resp) => {
+          this.sessionStorage.setItem('authorization', btoa(`${login}:${senha}`)); // salvando login e senha criptografados no storage
+
           document.cookie = `token=${resp.token}; max-age=${5 * 60}`;
           sessionStorage.setItem('refreshToken', resp.refreshToken);
           sessionStorage.setItem('usuario', this.loginForm.controls.usuario.value);
