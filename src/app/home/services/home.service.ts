@@ -17,6 +17,12 @@ export class HomeService {
     });
   }
 
+  getCliente(id: number): Observable<Pessoa> {
+    return this._http.get<Pessoa>(`${environment.urlApi}cliente`, {
+      params: { id }
+    });
+  }
+
   getFuncis(): Observable<Pessoa[]> {
     return this._http.get<Pessoa[]>(`${environment.urlApi}funcionarios`)
       .pipe(tap((resp) => console.log('Pipe: ', resp)));

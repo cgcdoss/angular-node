@@ -72,6 +72,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
       .subscribe(resp => {
         console.log('jeito 2:', resp);
       });
+
+    forkJoin(
+      [1, 2, 3].map(elem => this._homeService.getCliente(elem))
+    ).subscribe(cliente => {
+      console.log(cliente);
+    });
   }
 
   logout(): void {
