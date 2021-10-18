@@ -37,3 +37,29 @@
     {{variavel}}
   </div>
 </ng-template>
+
+<div [ngSwitch]="1">
+  <div *ngSwitchCase="1">1</div>
+  <div *ngSwitchCase="2">2</div>
+  <div *ngSwitchDefault>default</div>
+</div>
+
+<ng-template #templ>
+  <button>Olá</button>
+</ng-template>
+
+<app-teste [myTemplate]="templ"></app-teste>
+
+<!------------------------------->
+
+<ng-template #templComCliente>
+  {{clientes[0].nome}}
+
+  <button (click)="carregaClientes()"></button>
+</ng-template>
+
+<ng-template #templSemCliente>
+  Carregando clientes...
+</ng-template>
+
+<div *ngIf="clientes then templComCliente else templSemCliente"></div>

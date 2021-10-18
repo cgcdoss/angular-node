@@ -5,7 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, TesteComponent } from './home/home.component';
 import { AuthGuardService } from './auth/guards/auth-guard.service';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './auth/services/auth.service';
@@ -18,7 +18,8 @@ import { TesteDirective } from './diretivas/teste.directive';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    TesteDirective
+    TesteDirective,
+    TesteComponent
   ],
   imports: [
     BrowserModule,

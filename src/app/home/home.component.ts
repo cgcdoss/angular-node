@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { map, retry, tap, timeout } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('template', { read: TemplateRef }) template!: TemplateRef<any>;
   @ViewChild('template2', { read: TemplateRef }) template2!: TemplateRef<any>;
 
-  clientes!: any[];
+  clientes!: Pessoa[];
   templateAtual!: TemplateRef<any>;
 
   constructor(
@@ -27,18 +27,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this._homeService.getClientes()
-      .pipe(
-        tap(() => console.log('carregando clientes')),
-        timeout(4000), // espera até 4s pra ter resposta
-        retry(3), // tenta 3 vezes, se a primeira der falha
-      )
-      .subscribe((res) => {
-        this.clientes = res;
-        this.container.createEmbeddedView(this.template, { $implicit: this.clientes[0].nome }); // uma forma de fazer o createEmbeddedView
-      }, err => {
-        console.log('falha ao recuperar clientes', err.error);
-      });
+    this.carregaClientes();
   }
 
   ngAfterViewInit(): void {
@@ -49,6 +38,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
       const view = this.template.createEmbeddedView({ $implicit: 'Hello World' });
       this.container.insert(view);
     });
+  }
+
+  carregaClientes(): void {
+    this._homeService.getClientes()
+      .pipe(
+        tap(() => console.log('carregando clientes')),
+        timeout(4000), // espera até 4s pra ter resposta
+        retry(3), // tenta 3 vezes, se a primeira der falha
+      )
+      .subscribe((res) => {
+        this.clientes = res;
+        this.container.clear();
+        this.container.createEmbeddedView(this.template, { $implicit: this.clientes[0].nome }); // uma forma de fazer o createEmbeddedView
+      }, err => {
+        console.log('falha ao recuperar clientes', err.error);
+      });
   }
 
   private getClienteAndFunci(): void {
@@ -94,4 +99,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
+}
+
+@Component({
+  selector: 'app-teste',
+  template: `
+    <ng-container *ngTemplateOutlet="myTemplate"></ng-container>
+  `
+})
+export class TesteComponent {
+  @Input() myTemplate!: TemplateRef<any>;
 }
